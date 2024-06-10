@@ -211,7 +211,7 @@ export const VirtualScroller = React.memo(
 
             if (props.lazy) {
                 Promise.resolve().then(() => {
-                    lazyLoadState.current = {
+                    lazyLoadState.current = both ? {first, last} : {
                         first: props.step ? (both ? { rows: 0, cols: firstState.cols } : 0) : firstState,
                         last: Math.min(props.step ? props.step : last, (props.items || []).length)
                     };
@@ -414,7 +414,7 @@ export const VirtualScroller = React.memo(
                 props.onScrollIndexChange && props.onScrollIndexChange(newState);
 
                 if (props.lazy && isPageChanged(first)) {
-                    const newLazyLoadState = {
+                    const newLazyLoadState = both ? {first, last} : {
                         first: props.step ? Math.min(getPageByFirst(first) * props.step, (props.items || []).length - props.step) : first,
                         last: Math.min(props.step ? (getPageByFirst(first) + 1) * props.step : last, (props.items || []).length)
                     };
